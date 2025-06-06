@@ -1,0 +1,100 @@
+Open Score 10 DP1 = 
+AVERAGEX(
+    FILTER(DimStudents, DimStudents[YearGroup] = "10"),
+    CALCULATE(
+        SUMX(
+            TOPN(
+                3,
+                UNION(
+                    // Select the 2nd best English result
+                    EXCEPT(
+                        TOPN(
+                            2,
+                            FILTER(
+                                'Assessment Results',
+                                'Assessment Results'[Bucket ID] = "ENG" &&
+                                'Assessment Results'[YearGroup] = "10" &&
+                                'Assessment Results'[Term] = "Spring" &&
+                                'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            )
+                            ),
+                            'Assessment Results'[GradeValue], DESC,
+                            'Assessment Results'[Subject], ASC
+                        ),
+                        TOPN(
+                            1,
+                            FILTER(
+                                'Assessment Results',
+                                'Assessment Results'[Bucket ID] = "ENG" &&
+                                'Assessment Results'[YearGroup] = "10" &&
+                                'Assessment Results'[Term] = "Spring" &&
+                                'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            )
+                            ),
+                            'Assessment Results'[GradeValue], DESC,
+                            'Assessment Results'[Subject], ASC
+                        )
+                    ),
+
+                    // Select EB grades ranked 4th to 6th (after the top 3 EBACC)
+                    EXCEPT(
+                        TOPN(
+                            6,
+                            FILTER(
+                                'Assessment Results',
+                                'Assessment Results'[Bucket ID] = "EB" &&
+                                'Assessment Results'[YearGroup] = "10" &&
+                                'Assessment Results'[Term] = "Spring" &&
+                                'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            )
+                            ),
+                            'Assessment Results'[GradeValue], DESC,
+                            'Assessment Results'[Subject], ASC
+                        ),
+                        TOPN(
+                            3,
+                            FILTER(
+                                'Assessment Results',
+                                'Assessment Results'[Bucket ID] = "EB" &&
+                                'Assessment Results'[YearGroup] = "10" &&
+                                'Assessment Results'[Term] = "Spring" &&
+                                'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            )
+                            ),
+                            'Assessment Results'[GradeValue], DESC,
+                            'Assessment Results'[Subject], ASC
+                        )
+                    ),
+
+                    // All Open bucket ("OP") results
+                    FILTER(
+                        'Assessment Results',
+                        'Assessment Results'[Bucket ID] = "OP" &&
+                        'Assessment Results'[YearGroup] = "10" &&
+                        'Assessment Results'[Term] = "Spring" &&
+                        'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            )
+                    )
+                ),
+                'Assessment Results'[GradeValue], DESC,
+                'Assessment Results'[Subject], ASC // Tiebreaker to strictly get top 3 only
+            ),
+            'Assessment Results'[GradeValue]
+        )
+    )
+)
