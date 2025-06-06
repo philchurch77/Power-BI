@@ -1,0 +1,4 @@
+Attendance % = 
+    CALCULATE(
+        AVERAGE('AL Attendance OT'[Attendance Count]),
+        'AL Attendance OT'[Date] <= MAX('AL Attendance OT'[Date]))
