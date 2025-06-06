@@ -1,0 +1,30 @@
+Year10_4to9_DP1 = 
+DIVIDE(
+    COUNTX(
+        FILTER(
+            'Assessment Results',
+            'Assessment Results'[GradeValue] > 3.5 &&
+            'Assessment Results'[YearGroup] = "10" &&
+            'Assessment Results'[Term] = "Spring" &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            ) &&
+            NOT(ISBLANK(RELATED('DimStudents'[Student Names])))
+        ),
+        'Assessment Results'[GradeValue]
+    ),
+    COUNTX(
+        FILTER(
+            'Assessment Results',
+            'Assessment Results'[YearGroup] = "10" &&
+            'Assessment Results'[Term] = "Spring" &&
+            (
+                'Assessment Results'[AssessmentType] = "1-9" ||
+                'Assessment Results'[AssessmentType] = "CWL Vocational"
+            ) &&
+            NOT(ISBLANK(RELATED('DimStudents'[Student Names])))
+        ),
+        'Assessment Results'[GradeValue]
+    )
+)
