@@ -1,0 +1,22 @@
+EBACC Score 10 DP1 = 
+AVERAGEX(
+    FILTER(DimStudents, DimStudents[YearGroup] = "10"),
+    CALCULATE(
+        SUMX(
+            TOPN(
+                3,
+                FILTER(
+                    'Assessment Results',
+                    'Assessment Results'[Bucket ID] = "EB" &&
+                    'Assessment Results'[YearGroup] = "10" &&
+                    'Assessment Results'[Term] = "Spring" &&
+                    'Assessment Results'[ResultDate] >= DATE(2024, 9, 1) &&
+                    'Assessment Results'[AssessmentType] = "1-9"
+                ),
+                'Assessment Results'[GradeValue], DESC,
+                'Assessment Results'[Subject], ASC // Tiebreaker to avoid extra rows
+            ),
+            'Assessment Results'[GradeValue]
+        )
+    )
+)
