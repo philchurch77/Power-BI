@@ -1,0 +1,5 @@
+Attendance % for MALE = 
+CALCULATE(
+	[Attendance %],
+	'Anglian Learning Students'[Gender] IN { "MALE" }
+)
