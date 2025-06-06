@@ -1,0 +1,31 @@
+English Doubled Score 10 DP1 = 
+SUMX(
+    VALUES('Assessment Results'[StudentId]),
+    VAR EngLang = CALCULATE(
+        MAX('Assessment Results'[GradeValue]), 
+        'Assessment Results'[Subject] = "English Language",   
+        'Assessment Results'[YearGroup] = "10",
+        'Assessment Results'[Term] = "Spring",
+        'Assessment Results'[ResultDate] >= DATE(2024, 9, 1),
+        'Assessment Results'[AssessmentType] = "1-9"
+    )
+
+    VAR EngLit = CALCULATE(
+        MAX('Assessment Results'[GradeValue]), 
+        'Assessment Results'[Subject] = "English Literature",    
+        'Assessment Results'[YearGroup] = "10",
+        'Assessment Results'[Term] = "Spring",
+        'Assessment Results'[ResultDate] >= DATE(2024, 9, 1),
+        'Assessment Results'[AssessmentType] = "1-9"
+    )
+
+    RETURN
+        SWITCH(
+            TRUE(),
+            ISBLANK(EngLang) && ISBLANK(EngLit), BLANK(),
+            ISBLANK(EngLang), EngLit,
+            ISBLANK(EngLit), EngLang,
+            EngLang >= EngLit, EngLang * 2,
+            EngLit > EngLang, EngLit * 2
+        )
+)/[Year 10 Students]
