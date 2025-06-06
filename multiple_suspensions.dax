@@ -1,0 +1,12 @@
+Number of Students Suspended More than Once = 
+VAR _CountbyPerson =
+    ADDCOLUMNS (
+        SUMMARIZE ('Anglian Learning Exclusions','Anglian Learning Exclusions'[Student ID]),
+        "@Count", CALCULATE ( DISTINCTCOUNT ('Anglian Learning Exclusions'[Start Date]) )
+    )
+VAR _GreaterThan1 =
+    FILTER ( _CountbyPerson, [@Count] > 1 )
+VAR _Result =
+    COUNTROWS ( _GreaterThan1 )
+RETURN
+    _Result
