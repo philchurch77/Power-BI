@@ -1,0 +1,54 @@
+10 Eng & Mat 4-9 % Spring = 
+VAR StudentsWithEng =
+    ADDCOLUMNS(
+        SUMMARIZE(
+            FILTER(
+                'Assessment Results',
+                'Assessment Results'[Bucket ID] = "ENG" &&
+                'Assessment Results'[YearGroup] = "10" &&
+                'Assessment Results'[Term] = "Spring" &&
+                'Assessment Results'[AssessmentType] = "1-9" &&
+                'Assessment Results'[ResultDate] >= DATE(2024, 9, 1)
+            ),
+            'Assessment Results'[StudentId]
+        ),
+        "MaxEng", 
+        CALCULATE(
+            MAX('Assessment Results'[GradeValue]),
+            'Assessment Results'[Bucket ID] = "ENG",
+            'Assessment Results'[YearGroup] = "10",
+            'Assessment Results'[Term] = "Spring",
+            'Assessment Results'[AssessmentType] = "1-9",
+            'Assessment Results'[ResultDate] >= DATE(2024, 9, 1)
+        )
+    )
+
+VAR StudentsWithEngAbove3 =
+    SELECTCOLUMNS(
+        FILTER(StudentsWithEng, [MaxEng] > 3),
+        "StudentId", [StudentId]
+    )
+
+VAR StudentsWithMatAbove3 =
+    CALCULATETABLE(
+        VALUES('Assessment Results'[StudentId]),
+        'Assessment Results'[Bucket ID] = "MAT" &&
+        'Assessment Results'[GradeValue] > 3 &&
+        'Assessment Results'[YearGroup] = "10" &&
+        'Assessment Results'[Term] = "Spring" &&
+        'Assessment Results'[AssessmentType] = "1-9" &&
+        'Assessment Results'[ResultDate] >= DATE(2024, 9, 1)
+    )
+
+VAR StudentsWithBoth =
+    INTERSECT(StudentsWithEngAbove3, StudentsWithMatAbove3)
+
+RETURN
+    DIVIDE(
+        COUNTROWS(StudentsWithBoth),
+        CALCULATE(
+            DISTINCTCOUNT('Assessment Results'[StudentId]),
+            'Assessment Results'[YearGroup] = "10" &&
+            'Assessment Results'[ResultDate] >= DATE(2024, 9, 1)
+        )
+    )
