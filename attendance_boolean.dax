@@ -1,0 +1,5 @@
+Attendance % for Pupil Premium = 
+CALCULATE(
+	[Attendance %],
+	'Anglian Learning Students'[Pupil Premium] = TRUE()
+)
