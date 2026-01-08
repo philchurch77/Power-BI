@@ -1,0 +1,6 @@
+Claimants_Table = DATATABLE("Claimants", STRING, {
+    { "Total Claimants" },
+    { "Eligible Claimants" },
+    { "Signed Up Eligible Claimants" }
+    }
+)
