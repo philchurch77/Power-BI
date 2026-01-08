@@ -1,0 +1,10 @@
+Attendance % (Last 21 Days) =
+CALCULATE(
+    [Attendance %],
+    DATESINPERIOD(
+        Dates[Date],
+        [Latest Attendance Date],
+        -21,
+        DAY
+    )
+)
