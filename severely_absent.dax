@@ -1,0 +1,11 @@
+Students Severely Absent = 
+CALCULATE(
+    DISTINCTCOUNT('AL Attendance OT'[ID]),
+    FILTER(
+        ALL('AL Attendance OT'[ID]),
+        CALCULATE(
+            AVERAGE('AL Attendance OT'[Attendance Count]),
+            'AL Attendance OT'[Date] <= MAX('AL Attendance OT'[Date])
+        ) < 0.5
+    )
+)/DISTINCTCOUNT('AL Attendance OT'[ID])
