@@ -1,0 +1,23 @@
+Dates :=
+VAR StartDate = DATE(2019, 9, 1)
+VAR EndDate   = DATE(2027, 7, 31)
+RETURN
+ADDCOLUMNS(
+    CALENDAR ( StartDate, EndDate ),
+
+    "Year", YEAR ( [Date] ),
+    "Month Number", MONTH ( [Date] ),
+    "Month Name", FORMAT ( [Date], "MMM" ),
+
+    "Week Number",
+        WEEKNUM ( [Date], 2 ),
+
+    "Week Start Date",
+        [Date] - WEEKDAY ( [Date], 2 ) + 1,
+
+    "Week End Date",
+        [Date] - WEEKDAY ( [Date], 2 ) + 7,
+
+    "Day Name", FORMAT ( [Date], "ddd" ),
+    "Day Number", WEEKDAY ( [Date], 2 )
+)
