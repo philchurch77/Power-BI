@@ -1,0 +1,12 @@
+Signed Up Eligible Claims =
+CALCULATE(
+    [Total Car Finance Agreements],
+    'public credit_agreements'[eligibility_type] IN { "pre_21_dca_eligible" },
+    'public credit_agreements'[is_eligible] IN { TRUE },
+    'public claimants'[is_eligible] IN { TRUE },
+    'public claims'[status] IN { "ACKNOWLEDGED", "CLOSED", "FIRM_RECEIVED", "REVIEW_PENDING", "SUBMISSION_PENDING", "SUBMITTED" },
+    'public defendants'[in_approved_list] IN { TRUE },
+    'public claims'[claim_substantiation_status] IN { "pass" }
+    || ISBLANK('public claims'[claim_substantiation_status]),
+    Not(ISBLANK('public claimants'[ccp_signed_datetime])
+))
