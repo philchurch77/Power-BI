@@ -1,0 +1,19 @@
+Absence Bands = 
+DATATABLE(
+    "Band", STRING,
+    "Min", DOUBLE,
+    "Max", DOUBLE,
+    {
+        {"A. Less than 5%", 0, 5},
+        {"B. 5% to less than 10%", 5, 10},
+        {"C. 10% to less than 15%", 10, 15},
+        {"D. 15% to less than 20%", 15, 20},
+        {"E. 20% to less than 25%", 20, 25},
+        {"F. 25% to less than 30%", 25, 30},
+        {"G. 30% to less than 35%", 30, 35},
+        {"H. 35% to less than 40%", 35, 40},
+        {"I. 40% to less than 45%", 40, 45},
+        {"J. 45% to less than 50%", 45, 50},
+        {"K. 50% and above (Severely Absent)", 50, 1000}
+    }
+)
