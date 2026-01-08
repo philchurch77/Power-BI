@@ -1,0 +1,10 @@
+Suspension % = 
+    DIVIDE(
+        CALCULATE(
+            'Anglian Learning Exclusions'[Suspension Events]
+        ),
+        CALCULATE(
+            DISTINCTCOUNT('Anglian Learning Students'[Student ID]),
+            'Anglian Learning Students'[Status] = "Active"
+        )
+    )
