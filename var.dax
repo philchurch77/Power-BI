@@ -1,0 +1,16 @@
+% My Details (Green, Amber or Gold) = 
+VAR TotalMyDetails =
+    CALCULATE(
+        COUNTROWS('(6) PEPs'),
+        '(6) PEPs'[Attribute] = "My Details"
+    )
+
+VAR GreenAmberGoldMyDetails =
+    CALCULATE(
+        COUNTROWS('(6) PEPs'),
+        '(6) PEPs'[Attribute] = "My Details",
+        '(6) PEPs'[Colour] IN { "Green", "Gold", "Amber" }
+    )
+
+RETURN
+DIVIDE(GreenAmberGoldMyDetails, TotalMyDetails)
