@@ -1,0 +1,5 @@
+Attendance % (By Entered Date) :=
+CALCULATE(
+    [Attendance %],
+    USERELATIONSHIP( Dates[Date], Attendance[EnteredDate] )
+)
